@@ -15,4 +15,17 @@ router.post("/users", async (request, response, next) => {
   response.send(newUser);
 });
 
+router.get("/users/:id", async (request, response, next) => {
+  try {
+    const user = await User.findByPk(request.params.id); // may change to findOne
+    if (user) {
+      response.send(user);
+    } else {
+      response.status(404).end();
+    }
+  } catch (error) {
+    next(error);
+  }
+});
+
 module.exports = router;

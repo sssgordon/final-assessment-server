@@ -29,7 +29,7 @@ router.get("/tickets", async (request, response, next) => {
 
 router.put("/tickets/:id", async (request, response, next) => {
   try {
-    const ticket = await Ticket.findByPk(request.params.id);
+    const ticket = await Ticket.findByPk(request.params.id); // may change to findOne
     if (ticket) {
       const updatedTicket = await ticket.update(request.body);
       response.send(updatedTicket);
@@ -43,7 +43,7 @@ router.put("/tickets/:id", async (request, response, next) => {
 
 router.delete("/tickets/:id", async (request, response, next) => {
   try {
-    const ticket = await Ticket.findByPk(request.params.id);
+    const ticket = await Ticket.findByPk(request.params.id); // may change to findOne
     if (ticket) {
       await ticket.destroy();
       response.status(204).end();

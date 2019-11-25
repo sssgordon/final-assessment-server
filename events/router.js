@@ -30,7 +30,7 @@ router.get("/events", async (request, response, next) => {
 
 router.put("/events/:id", async (request, response, next) => {
   try {
-    const event = await Event.findByPk(request.params.id);
+    const event = await Event.findByPk(request.params.id); // may change to findOne
     if (event) {
       const updatedEvent = await event.update(request.body);
       response.send(updatedEvent);
@@ -44,7 +44,7 @@ router.put("/events/:id", async (request, response, next) => {
 
 router.delete("/events/:id", async (request, response, next) => {
   try {
-    const event = await Event.findByPk(request.params.id);
+    const event = await Event.findByPk(request.params.id); // may change to findOne
     if (event) {
       await event.destroy();
       response.status(204).end();

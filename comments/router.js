@@ -27,7 +27,7 @@ router.get("/comments", async (request, response, next) => {
 
 router.put("/comments/:id", async (request, response, next) => {
   try {
-    const comment = await Comment.findByPk(request.params.id);
+    const comment = await Comment.findByPk(request.params.id); // may change to findOne
     if (comment) {
       const updatedComment = await comment.update(request.body);
       response.send(updatedComment);
@@ -41,7 +41,7 @@ router.put("/comments/:id", async (request, response, next) => {
 
 router.delete("/comments/:id", async (request, response, next) => {
   try {
-    const comment = await Comment.findByPk(request.params.id);
+    const comment = await Comment.findByPk(request.params.id); // may change to findOne
     if (comment) {
       await comment.destroy();
       response.status(204).end();
