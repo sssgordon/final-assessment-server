@@ -16,8 +16,6 @@ router.post("/users", async (request, response, next) => {
 
   const newUser = await User.create(user).catch(err => next(err));
   response.send(toJWT({ userId: newUser.id }));
-  console.log("userId test", newUser.id);
-  console.log("jwt test", toJWT({ userId: newUser.id }));
 });
 
 router.get("/users/:id", async (request, response, next) => {
