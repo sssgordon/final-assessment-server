@@ -1,7 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const bodyParser = require("body-parser");
-const userRouter = require("./users/router");
+const userRouter = require("./user/router");
+const eventRouter = require("./event/router");
 
 const app = express();
 
@@ -12,6 +13,7 @@ const jsonParser = bodyParser();
 app.use(jsonParser);
 
 app.use(userRouter);
+app.use(eventRouter);
 
 app.get("/", (req, res, next) => {
   res.send("hello world");
