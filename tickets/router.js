@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const Ticket = require("./model");
+const Comment = require("../comments/model");
 
 const router = new Router();
 
@@ -20,7 +21,7 @@ router.post("/tickets", async (request, response, next) => {
 
 router.get("/tickets", async (request, response, next) => {
   try {
-    const tickets = await Ticket.findAll();
+    const tickets = await Ticket.findAll({ include: [Comment] });
     response.send(tickets);
   } catch (error) {
     next(error);
@@ -29,7 +30,9 @@ router.get("/tickets", async (request, response, next) => {
 
 router.put("/tickets/:id", async (request, response, next) => {
   try {
-    const ticket = await Ticket.findByPk(request.params.id); // may change to findOne
+    const ticket = await Ticket.findByPk(request.params.id, {
+      include: [Comment]
+    }); // may change to findOne
     if (ticket) {
       const updatedTicket = await ticket.update(request.body);
       response.send(updatedTicket);
@@ -43,7 +46,9 @@ router.put("/tickets/:id", async (request, response, next) => {
 
 router.delete("/tickets/:id", async (request, response, next) => {
   try {
-    const ticket = await Ticket.findByPk(request.params.id); // may change to findOne
+    const ticket = await Ticket.findByPk(request.params.id, {
+      include: [Comment]
+    }); // may change to findOne
     if (ticket) {
       await ticket.destroy();
       response.status(204).end();
