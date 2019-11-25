@@ -3,7 +3,7 @@ const Event = require("./model");
 
 const router = new Router();
 
-router.post("/event", async (request, response, next) => {
+router.post("/events", async (request, response, next) => {
   try {
     const event = {
       name: request.body.name,
@@ -19,7 +19,7 @@ router.post("/event", async (request, response, next) => {
   }
 });
 
-router.get("/event", async (request, response, next) => {
+router.get("/events", async (request, response, next) => {
   try {
     const events = await Event.findAll();
     response.send(events);
@@ -28,7 +28,7 @@ router.get("/event", async (request, response, next) => {
   }
 });
 
-router.put("/event/:id", async (request, response, next) => {
+router.put("/events/:id", async (request, response, next) => {
   try {
     const event = await Event.findByPk(request.params.id);
     if (event) {
@@ -42,7 +42,7 @@ router.put("/event/:id", async (request, response, next) => {
   }
 });
 
-router.delete("/event/:id", async (request, response, next) => {
+router.delete("/events/:id", async (request, response, next) => {
   try {
     const event = await Event.findByPk(request.params.id);
     if (event) {

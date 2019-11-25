@@ -4,7 +4,7 @@ const bcrypt = require("bcrypt");
 
 const router = new Router();
 
-router.post("/user", async (request, response, next) => {
+router.post("/users", async (request, response, next) => {
   const user = {
     name: request.body.name,
     email: request.body.email,
