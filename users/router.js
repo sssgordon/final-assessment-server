@@ -3,18 +3,19 @@ const User = require("./model");
 const bcrypt = require("bcrypt");
 const Ticket = require("../tickets/model");
 const Comment = require("../comments/model");
+const { toJWT, toData } = require("../auth/jwt");
 
 const router = new Router();
 
 router.post("/users", async (request, response, next) => {
   const user = {
-    name: request.body.name,
+    username: request.body.username,
     email: request.body.email,
     password: bcrypt.hashSync(request.body.password, 10)
   };
 
   const newUser = await User.create(user).catch(err => next(err));
-  response.send(newUser);
+  response.send({ jwt: toJWT({ userId: newUser.id }) });
 });
 
 router.get("/users/:id", async (request, response, next) => {
