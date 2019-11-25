@@ -5,6 +5,7 @@ const userRouter = require("./users/router");
 const eventRouter = require("./events/router");
 const ticketRouter = require("./tickets/router");
 const commentRouter = require("./comments/router");
+const authRouter = require("./auth/router");
 
 const app = express();
 
@@ -18,6 +19,7 @@ app.use(userRouter);
 app.use(eventRouter);
 app.use(ticketRouter);
 app.use(commentRouter);
+app.use(authRouter);
 
 app.get("/", (req, res, next) => {
   res.send("hello world");
