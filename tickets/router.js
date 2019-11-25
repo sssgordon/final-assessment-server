@@ -27,32 +27,32 @@ router.get("/tickets", async (request, response, next) => {
   }
 });
 
-// router.put("/tickets/:id", async (request, response, next) => {
-//   try {
-//     const event = await Event.findByPk(request.params.id);
-//     if (event) {
-//       const updatedEvent = await event.update(request.body);
-//       response.send(updatedEvent);
-//     } else {
-//       response.status(404).end();
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+router.put("/tickets/:id", async (request, response, next) => {
+  try {
+    const ticket = await Ticket.findByPk(request.params.id);
+    if (ticket) {
+      const updatedTicket = await ticket.update(request.body);
+      response.send(updatedTicket);
+    } else {
+      response.status(404).end();
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
-// router.delete("/tickets/:id", async (request, response, next) => {
-//   try {
-//     const event = await Event.findByPk(request.params.id);
-//     if (event) {
-//       await event.destroy();
-//       response.status(204).end();
-//     } else {
-//       response.status(404).end();
-//     }
-//   } catch (error) {
-//     next(error);
-//   }
-// });
+router.delete("/tickets/:id", async (request, response, next) => {
+  try {
+    const ticket = await Ticket.findByPk(request.params.id);
+    if (ticket) {
+      await ticket.destroy();
+      response.status(204).end();
+    } else {
+      response.status(404).end();
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 
 module.exports = router;
