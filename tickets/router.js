@@ -1,15 +1,21 @@
 const { Router } = require("express");
 const Ticket = require("./model");
 const Comment = require("../comments/model");
+const User = require("../users/model");
+const Event = require("../events/model");
+const { toData } = require("../auth/jwt");
 
 const router = new Router();
 
 router.post("/tickets", async (request, response, next) => {
   try {
+    const userId = toData(request.body.jwt).userId;
     const ticket = {
       imageUrl: request.body.imageUrl,
       price: request.body.price,
-      description: request.body.description
+      description: request.body.description,
+      userId: userId,
+      eventId: request.body.eventId
     };
 
     const newTicket = await Ticket.create(ticket);
@@ -21,7 +27,10 @@ router.post("/tickets", async (request, response, next) => {
 
 router.get("/tickets", async (request, response, next) => {
   try {
-    const tickets = await Ticket.findAll({ include: [Comment] });
+    const tickets = await Ticket.findAll({
+      order: [["id", "DESC"]],
+      include: [{ model: Comment, include: [User] }]
+    }); // this includes all
     response.send(tickets);
   } catch (error) {
     next(error);
