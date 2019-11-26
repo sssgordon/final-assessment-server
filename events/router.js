@@ -25,8 +25,7 @@ router.get("/events", async (request, response, next) => {
   try {
     // console.log("DATE TEST", Date.now());
     const events = await Event.findAll(
-      { where: { date: { [Sequelize.Op.gte]: Date.now() } } }, // this returns only the dates gte today
-      { include: [Ticket] }
+      { where: { date: { [Sequelize.Op.gte]: Date.now() } }, include: [Ticket] } // this returns only the dates gte today
     );
     response.send(events);
   } catch (error) {
