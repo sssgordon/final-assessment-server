@@ -42,6 +42,9 @@ router.get("/events", async (request, response, next) => {
   }
 });
 
+//pagination
+// router.get()
+
 // get all tickets of one event
 router.get("/events/:eventId/tickets", async (request, response, next) => {
   try {
