@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const Event = require("./model");
 const Ticket = require("../tickets/model");
+const Sequelize = require("sequelize");
 
 const router = new Router();
 
@@ -22,7 +23,11 @@ router.post("/events", async (request, response, next) => {
 
 router.get("/events", async (request, response, next) => {
   try {
-    const events = await Event.findAll({ include: [Ticket] });
+    // console.log("DATE TEST", Date.now());
+    const events = await Event.findAll(
+      { where: { date: { [Sequelize.Op.gte]: Date.now() } } }, // this returns only the dates gte today
+      { include: [Ticket] }
+    );
     response.send(events);
   } catch (error) {
     next(error);
