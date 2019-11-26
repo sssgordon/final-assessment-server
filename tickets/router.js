@@ -1,6 +1,7 @@
 const { Router } = require("express");
 const Ticket = require("./model");
 const Comment = require("../comments/model");
+const User = require("../users/model");
 
 const router = new Router();
 
@@ -21,7 +22,9 @@ router.post("/tickets", async (request, response, next) => {
 
 router.get("/tickets", async (request, response, next) => {
   try {
-    const tickets = await Ticket.findAll({ include: [Comment] });
+    const tickets = await Ticket.findAll({
+      include: [{ model: Comment, include: [User] }]
+    }); // this includes all
     response.send(tickets);
   } catch (error) {
     next(error);

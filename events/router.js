@@ -31,7 +31,9 @@ router.get("/events", async (request, response, next) => {
       {
         where: { date: { [Sequelize.Op.gte]: Date.now() } },
         order: [["id", "DESC"]],
-        include: [Ticket, Comment]
+        include: [
+          { model: Ticket, include: [{ model: User }, { model: Comment }] }
+        ]
       } // this returns only the dates gte today
     );
     response.send(events);
