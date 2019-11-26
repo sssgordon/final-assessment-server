@@ -12,7 +12,7 @@ const app = express();
 const corsMiddleware = cors();
 app.use(corsMiddleware);
 
-const jsonParser = bodyParser();
+const jsonParser = bodyParser.json();
 app.use(jsonParser);
 
 app.use(userRouter);

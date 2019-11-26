@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const Event = require("./model");
 const Ticket = require("../tickets/model");
+const User = require("../users/model");
+const Comment = require("../comments/model");
 const Sequelize = require("sequelize");
 
 const router = new Router();
@@ -21,15 +23,37 @@ router.post("/events", async (request, response, next) => {
   }
 });
 
+// get all events
 router.get("/events", async (request, response, next) => {
   try {
     // console.log("DATE TEST", Date.now());
     const events = await Event.findAndCountAll(
-      { where: { date: { [Sequelize.Op.gte]: Date.now() } }, limit: 9 }, // this returns only the dates gte today
-      { include: [Ticket] }
+      {
+        where: { date: { [Sequelize.Op.gte]: Date.now() } },
+        order: [["id", "DESC"]],
+        include: [
+          { model: Ticket, include: [{ model: User }, { model: Comment }] }
+        ]
+      } // this returns only the dates gte today
     );
-    console.log("events test", events);
-    response.send(events.rows);
+    // console.log("EVENTS TEST", events);
+    response.send({ count: events.count, events: events.rows });
+  } catch (error) {
+    next(error);
+  }
+});
+
+//pagination
+// router.get()
+
+// get all tickets of one event
+router.get("/events/:eventId/tickets", async (request, response, next) => {
+  try {
+    // console.log("DATE TEST", Date.now());
+    const event = await Event.findOne(
+      { where: { id: request.params.eventId }, include: [Ticket] } // this returns only the dates gte today
+    );
+    response.send(event.tickets);
   } catch (error) {
     next(error);
   }

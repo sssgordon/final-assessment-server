@@ -6,7 +6,9 @@ const router = new Router();
 router.post("/comments", async (request, response, next) => {
   try {
     const comment = {
-      content: request.body.content
+      content: request.body.content,
+      userId: request.body.userId,
+      ticketId: request.body.ticketId
     };
 
     const newComment = await Comment.create(comment);
