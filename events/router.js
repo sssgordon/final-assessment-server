@@ -24,11 +24,12 @@ router.post("/events", async (request, response, next) => {
 router.get("/events", async (request, response, next) => {
   try {
     // console.log("DATE TEST", Date.now());
-    const events = await Event.findAll(
-      { where: { date: { [Sequelize.Op.gte]: Date.now() } } }, // this returns only the dates gte today
+    const events = await Event.findAndCountAll(
+      { where: { date: { [Sequelize.Op.gte]: Date.now() } }, limit: 9 }, // this returns only the dates gte today
       { include: [Ticket] }
     );
-    response.send(events);
+    console.log("events test", events);
+    response.send(events.rows);
   } catch (error) {
     next(error);
   }
