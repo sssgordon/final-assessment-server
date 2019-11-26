@@ -1,6 +1,8 @@
 const { Router } = require("express");
 const Event = require("./model");
 const Ticket = require("../tickets/model");
+const User = require("../users/model");
+const Comment = require("../comments/model");
 const Sequelize = require("sequelize");
 
 const router = new Router();
@@ -29,7 +31,7 @@ router.get("/events", async (request, response, next) => {
       {
         where: { date: { [Sequelize.Op.gte]: Date.now() } },
         order: [["id", "DESC"]],
-        include: [Ticket]
+        include: [Ticket, Comment]
       } // this returns only the dates gte today
     );
     response.send(events);
