@@ -2,6 +2,7 @@ const { Router } = require("express");
 const Ticket = require("./model");
 const Comment = require("../comments/model");
 const User = require("../users/model");
+const Event = require("../events/model");
 
 const router = new Router();
 
@@ -10,7 +11,9 @@ router.post("/tickets", async (request, response, next) => {
     const ticket = {
       imageUrl: request.body.imageUrl,
       price: request.body.price,
-      description: request.body.description
+      description: request.body.description,
+      userId: request.body.userId,
+      eventId: request.body.eventId
     };
 
     const newTicket = await Ticket.create(ticket);
