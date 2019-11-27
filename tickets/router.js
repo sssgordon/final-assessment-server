@@ -40,14 +40,11 @@ router.get("/tickets", async (request, response, next) => {
   }
 });
 
-router.put("/tickets/:id", async (request, response, next) => {
+router.put("/edit/tickets/:ticketId", async (request, response, next) => {
   try {
-    const ticket = await Ticket.findByPk(request.params.id, {
-      include: [Comment]
-    }); // may change to findOne
+    const ticket = await Ticket.findByPk(request.params.ticketId); // may change to findOne
     if (ticket) {
-      const updatedTicket = await ticket.update(request.body);
-      response.send(updatedTicket);
+      ticket.update(request.body);
     } else {
       response.status(404).end();
     }
