@@ -18,6 +18,17 @@ router.post("/users", async (request, response, next) => {
   response.send(toJWT({ userId: newUser.id }));
 });
 
+router.get("/users", async (request, response, next) => {
+  try {
+    const users = await User.findAll({
+      order: [["id", "DESC"]]
+    });
+    response.send(users);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/users/:id", async (request, response, next) => {
   try {
     const user = await User.findByPk(request.params.id, {

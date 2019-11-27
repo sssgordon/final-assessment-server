@@ -1,18 +1,23 @@
 const { Router } = require("express");
 const Comment = require("./model");
 const User = require("../users/model");
+const { toData } = require("../auth/jwt");
 
 const router = new Router();
 
 router.post("/comments", async (request, response, next) => {
   try {
+    const userId = toData(request.body.jwt).userId;
+
     const comment = {
       content: request.body.content,
-      userId: request.body.userId,
-      ticketId: request.body.ticketId
+      ticketId: request.body.ticketId,
+      userId: userId
     };
 
-    const newComment = await Comment.create(comment);
+    const newComment = await Comment.create(comment, {
+      include: { model: User }
+    });
     response.send(newComment);
   } catch (error) {
     next(error);
@@ -34,7 +39,7 @@ router.get("/tickets/:ticketId/comments", async (request, response, next) => {
     const comments = await Comment.findAll({
       where: { ticketId: request.params.ticketId },
       order: [["id", "DESC"]],
-      include: [User]
+      include: [{ model: User }]
     });
     response.send(comments);
   } catch (error) {
