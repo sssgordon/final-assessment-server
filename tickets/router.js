@@ -29,8 +29,8 @@ router.get("/tickets", async (request, response, next) => {
   try {
     const tickets = await Ticket.findAll({
       order: [["id", "DESC"]],
-      include: [{ model: Comment, include: [User] }]
-    }); // this includes all
+      include: [{ model: User }, { model: Comment }]
+    });
     response.send(tickets);
   } catch (error) {
     next(error);
