@@ -29,7 +29,7 @@ router.get("/comments", async (request, response, next) => {
 });
 
 // get all comments on a ticket
-router.get("/ticket/:ticketId/comments", async (request, response, next) => {
+router.get("/tickets/:ticketId/comments", async (request, response, next) => {
   try {
     const comments = await Comment.findAll({
       where: { ticketId: request.params.ticketId },
