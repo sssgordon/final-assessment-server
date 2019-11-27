@@ -1,5 +1,6 @@
 const { Router } = require("express");
 const Comment = require("./model");
+const User = require("../users/model");
 
 const router = new Router();
 
@@ -21,6 +22,20 @@ router.post("/comments", async (request, response, next) => {
 router.get("/comments", async (request, response, next) => {
   try {
     const comments = await Comment.findAll();
+    response.send(comments);
+  } catch (error) {
+    next(error);
+  }
+});
+
+// get all comments on a ticket
+router.get("/ticket/:ticketId/comments", async (request, response, next) => {
+  try {
+    const comments = await Comment.findAll({
+      where: { ticketId: request.params.ticketId },
+      order: [["id", "DESC"]],
+      include: [User]
+    });
     response.send(comments);
   } catch (error) {
     next(error);

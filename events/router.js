@@ -51,9 +51,7 @@ router.get("/events/:eventId", async (request, response, next) => {
     // console.log("DATE TEST", Date.now());
     const event = await Event.findByPk(request.params.eventId, {
       order: [["id", "DESC"]],
-      include: [
-        { model: Ticket, include: [{ model: User }, { model: Comment }] }
-      ]
+      include: [{ model: Ticket, include: [User, Comment] }]
     });
     response.send(event.tickets);
   } catch (error) {
