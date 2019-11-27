@@ -10,6 +10,7 @@ const router = new Router();
 router.post("/tickets", async (request, response, next) => {
   try {
     const userId = toData(request.body.jwt).userId;
+
     const ticket = {
       imageUrl: request.body.imageUrl,
       price: request.body.price,
@@ -18,8 +19,10 @@ router.post("/tickets", async (request, response, next) => {
       eventId: request.body.eventId
     };
 
+    const author = await User.findByPk(userId);
+
     const newTicket = await Ticket.create(ticket);
-    response.send(newTicket);
+    response.send({ ticket: newTicket, author: author.dataValues.username });
   } catch (error) {
     next(error);
   }

@@ -16,8 +16,9 @@ router.post("/comments", async (request, response, next) => {
     };
 
     const author = await User.findByPk(userId);
+
     const newComment = await Comment.create(comment);
-    console.log("AUTHOR TEST", author);
+    // console.log("AUTHOR TEST", author);
     response.send({ comment: newComment, author: author.dataValues.username });
   } catch (error) {
     next(error);

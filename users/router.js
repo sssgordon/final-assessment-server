@@ -15,7 +15,10 @@ router.post("/users", async (request, response, next) => {
   };
 
   const newUser = await User.create(user).catch(err => next(err));
-  response.send(toJWT({ userId: newUser.id }));
+  response.send({
+    jwt: toJWT({ userId: newUser.id }),
+    username: newUser.username
+  });
 });
 
 router.get("/users", async (request, response, next) => {
