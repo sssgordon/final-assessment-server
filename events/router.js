@@ -42,18 +42,21 @@ router.get("/events", async (request, response, next) => {
   }
 });
 
-//pagination
-// router.get()
-
 // get all tickets of one event
 router.get("/events/:eventId", async (request, response, next) => {
   try {
     // console.log("DATE TEST", Date.now());
+    const tickets = await Ticket.findAll({
+      where: { eventId: request.params.eventId },
+      order: [["id", "DESC"]],
+      include: [User, Comment]
+    });
+
     const event = await Event.findByPk(request.params.eventId, {
       order: [["id", "DESC"]],
       include: [{ model: Ticket, include: [User, Comment] }]
     });
-    response.send(event.tickets);
+    response.send(tickets);
   } catch (error) {
     next(error);
   }
