@@ -40,6 +40,17 @@ router.get("/tickets", async (request, response, next) => {
   }
 });
 
+// get all tickets of a user
+router.get("/user/tickets/:ticketId", async (request, response, next) => {
+  try {
+    const ticket = await Ticket.findByPk(request.params.ticketId);
+    const tickets = await Ticket.findAll({ where: { userId: ticket.userId } });
+    response.send(tickets);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.put("/edit/tickets/:ticketId", async (request, response, next) => {
   try {
     const ticket = await Ticket.findByPk(request.params.ticketId); // may change to findOne
