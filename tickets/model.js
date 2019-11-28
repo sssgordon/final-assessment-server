@@ -13,6 +13,10 @@ const Ticket = db.define("ticket", {
   description: {
     type: Sequelize.TEXT,
     allowNull: false
+  },
+  risk: {
+    type: Sequelize.INTEGER,
+    allowNull: true
   }
 });
 
