@@ -2,10 +2,11 @@ const { Router } = require("express");
 const Comment = require("./model");
 const User = require("../users/model");
 const { toData } = require("../auth/jwt");
+const auth = require("../auth/middleware");
 
 const router = new Router();
 
-router.post("/comments", async (request, response, next) => {
+router.post("/comments", auth, async (request, response, next) => {
   try {
     const userId = toData(request.body.jwt).userId;
 

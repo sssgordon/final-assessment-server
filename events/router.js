@@ -4,10 +4,11 @@ const Ticket = require("../tickets/model");
 const User = require("../users/model");
 const Comment = require("../comments/model");
 const Sequelize = require("sequelize");
+const auth = require("../auth/middleware");
 
 const router = new Router();
 
-router.post("/events", async (request, response, next) => {
+router.post("/events", auth, async (request, response, next) => {
   try {
     const event = {
       name: request.body.name,

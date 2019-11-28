@@ -4,10 +4,11 @@ const Comment = require("../comments/model");
 const User = require("../users/model");
 const Event = require("../events/model");
 const { toData } = require("../auth/jwt");
+const auth = require("../auth/middleware");
 
 const router = new Router();
 
-router.post("/tickets", async (request, response, next) => {
+router.post("/tickets", auth, async (request, response, next) => {
   try {
     const userId = toData(request.body.jwt).userId;
 
@@ -66,7 +67,7 @@ router.get("/user/tickets/:ticketId", async (request, response, next) => {
   }
 });
 
-router.put("/edit/tickets/:ticketId", async (request, response, next) => {
+router.put("/edit/tickets/:ticketId", auth, async (request, response, next) => {
   try {
     const ticket = await Ticket.findByPk(request.params.ticketId); // may change to findOne
     if (ticket) {
