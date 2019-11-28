@@ -40,6 +40,21 @@ router.get("/tickets", async (request, response, next) => {
   }
 });
 
+// get all tickets of one event
+router.get("/events/:eventId/tickets", async (request, response, next) => {
+  try {
+    // console.log("DATE TEST", Date.now());
+    const tickets = await Ticket.findAll({
+      where: { eventId: request.params.eventId },
+      order: [["id", "DESC"]],
+      include: [User, Comment]
+    });
+    response.send(tickets);
+  } catch (error) {
+    next(error);
+  }
+});
+
 // get all tickets of a user
 router.get("/user/tickets/:ticketId", async (request, response, next) => {
   try {
